@@ -1,0 +1,181 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage[english]{babel}
+\usepackage[authoryear,round,semicolon,numbers,sort&compress]{natbib}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{authblk}
+\usepackage{verbatim}
+\usepackage{subfig}
+\usepackage{xr}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage[justification=centering]{caption}
+\usepackage{setspace}
+\usepackage{array}
+\newcolumntype{L}{>{\centering\arraybackslash}m{2cm}}
+\usepackage[titletoc]{appendix}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\usepackage[none]{hyphenat}
+\usepackage[official]{eurosym}
+
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
+\makeatletter
+%% The "\@seccntformat" command is an auxiliary command
+%% (see pp. 26f. of 'The LaTeX Companion,' 2nd. ed.)
+\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+   {\csname the#1\endcsname\quad}  % default
+   {\csname #1@cntformat\endcsname}% enable individual control
+}
+\let\oldappendix\appendix %% save current definition of \appendix
+\renewcommand\appendix{%
+    \oldappendix
+    \newcommand{\section@cntformat}{\appendixname~\thesection\quad}
+}
+\makeatother
+
+
+
+
+\pagenumbering{arabic}
+
+\immediate\write18{texcount -tex -sum  \jobname.tex > \jobname.wordcount.tex}
+
+\providecommand{\keywords}[1]
+{
+  \small    
+  \textbf{\textit{Keywords---}} #1
+}
+\newcommand{\footremember}[2]{%
+    \footnote{#2}
+    \newcounter{#1}
+    \setcounter{#1}{\value{footnote}}%
+}
+\newcommand{\footrecall}[1]{%
+    \footnotemark[\value{#1}]%
+} 
+\makeatletter
+\newcommand{\distas}[1]{\mathbin{\overset{#1}{\kern\z@\sim}}}%
+\newsavebox{\mybox}\newsavebox{\mysim}
+\makeatother
+
+\newcommand{\GG}[1]{}
+
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+
+\title{The impact of the COVID-crisis on the funding of the Italian banks}
+
+
+\author[1,2]{Claudio Barbieri}
+%\author[1,2,4]{Mattia Guerini}
+%\author[3,1,2,4]{Mauro Napoletano}
+
+\affil[1]{Universit\'{e} de C\^{o}te D'Azur, GREDEG}
+\affil[2]{Scuola Superiore Sant'Anna}
+%\affil[4]{OFCE - SciencesPo}
+%\affil[4]{SKEMA Business School}
+
+
+\date{\today}                     
+\setcounter{Maxaffil}{0}
+\renewcommand\Affilfont{\itshape\small}
+
+\onehalfspacing
+
+\begin{document}
+%\graphicspath{{C:/Users/claud/Desktop/Img_SynchRates/Compressed2/}}
+\vspace{-10cm}
+\maketitle
+
+\section{Description of the proposal}
+\noindent The aim of the project is to estimate the regional impact of the COVID-19 crisis on the funding of financial institutions in Italy. 
+
+The key aspects of this research are the availability of confidential data and the application of a novel methodology their study.
+
+Concerning the data, some access to the Centrale del Rischio Finaziario (CRIF) dataset has been granted to a group of selected Italian academics. The CRIF, an Italian station for the financial risk, is a global enterprise specialized in credit information systems and business information. It collects and manages data for over 6.300 banks and financial institutions, 55.000 companies and 310.000 individual consumers spread over 50 different countries. In particular, the division for credit information (EURISC) records the information relative to the credits demanded and granted, by and to companies and households. It also contains information on the repayments of the loans and the creditworthiness of the credit receiver. 
+
+Among the data, we have the possibility of analysis a dataset containing measures on the total of handled credit procedures, the amounts of the granted credits, and the total of the default profiles (based on Basel compliance). The dataset ranges from year 2000 to 2019 and contains monthly data up to 2019, while the frequency turns being weekly from 2020. The current availability of the data extends up to the 31st of March 2020. Data are further categorized by horizontal dimensions, such as the type of product, the type of institution, the residence of the receiver, the classes of amount, and the classes of duration. 
+
+Given the availability of the data, an important point for future policy concerns the estimation of the effects of the crisis on the credit flows and on the resilience of the financial system, and the evaluation of regional divergences within the country. 
+
+In a previous paper, \cite{barbieri:etal2020}, we introduced a novel methodology to the study of synchronization of variables and applied it to the Eurozone government bonds. The analysis is based on the application of the random matrix theory to static factor models (for some references on the random matrix theory see \citep{bouchaud:potters2009,laloux:etal2000}, for static factor models see \citep{ludvigson:ng2009,bai:ng2008}). 
+
+Methodologically, the key concept is the selection of principal components by a comparison with null model, commonly a Gaussian null model, but with extensions also to different models, such as power law models. The principal components are then exploited for the estimation of the factors. Two points are left in our analysis for further studies: the addition of lagged cross correlation in static factor models and the application of random matrix theory to dynamic factor models. 
+
+The addition of lagged correlations in principal component selection is already introduced by \citep{bouchaud:potters2009}. In this paper we focus on the second open issue, that is the application of null models to dynamic factor models. The idea is to follow the dynamic factor estimation as summarized in \citep{barigozzi2019}, which uses an iteration of the Kalman filter and a maximum likelihood estimation (we can count on an initial R script by the author for the implementation of the algorithm). Starting from this point, we introduce a null model by simulating some random autoregressive time series according to the optimal number of lags estimated from the empirical data. Applying the same estimation to the null model provides us with some ``null factors'', that are factors replicating some random series. The related eigenvalues and eigenvectors can be then compared with those of the true model. The comparison of the eigenvalues evolution, especially, allows to select only those eigenvalues that explain a fraction of the variance that is additional to that of the random model. In the end, this is a reliable method to select factors, whose selection is usually a matter of some theoretical explanation or econometric convenience (usually the factor are regressed on the data and only those that report the highest R-squared are selected. This selection can raise, however, the problem of factor interpretation when the factors result being strongly correlated with series that are theoretically very different or only spuriously correlated).
+
+Our factor estimation will allow to estimate a number of factors from the time series and to select them according to a clean comparison with a null model. We expect to find multiple factors in the series, which can be related either to different types of products or institutions (e.g. one for the dynamic of credit to the systemic important banks and one for the business companies) or to different geographical regions (e.g. one factor for northern Italy and one for southern Italy). By filtering the data by type of product and by institution ex ante, the remaining regional factors are those that interest us the most. We expect in fact some regional discrepancy in the credit flows and in their defaults. This results can shed light into future regionally targeted policy as well as question concerning the causes of such divergence. 
+
+The project presents both innovative aspects for economic and policy analysis as well as technical novelties. More precisely, this project allows to:
+\begin{enumerate}
+	\item Quantify the divergence between Italian regions concerning credit flows and defaults
+	\item Extend the applications of the random matrix theory by applying it to the dynamic factor models
+	\item Advise policy makers on the existing co-movements and divergences among regions and some causes of such divergences
+\end{enumerate}
+
+
+
+%\clearpage
+\section{Description of the collaboration and time line of the project}
+The project will be developed by Claudio Barbieri, Ph.D. student of the
+International Doctoral Program in Economics of the University of C\^{o}e
+d'Azur in collaboration with his supervisor at UCA, Dr. Mauro Napoletano, senior economist at 
+OFCE and SKEMA business school. 
+%\medskip
+\noindent The timing of the project will be the following one :
+\begin{itemize}
+	\item \textbf{Fall 2020:} retrieving of the data and optimization of the R-scripts for the analysis
+	\item \textbf{January-February 2021:} first results
+	\item \textbf{March 2020:} first draft of the paper
+	\item \textbf{April-July 2021:} drafting and correction of the paper, complementary review of the analysis 
+	\item \textbf{Summer 2021:} Submission to journals and drafting of the policy brief
+	\item \textbf{September 2021:} Publication of the policy brief
+	\item \textbf{October 2021:} Discussion of the PhD Thesis
+\end{itemize}
+
+
+\clearpage
+\section{Expected publications}
+
+\textbf{Expected results:} 
+We expect to publish the following results:
+\begin{enumerate}
+	\item One article that will be submitted to highly-ranked peer-reviewed international journals. The article will also be part of the PhD thesis of the candidate.
+	\item One policy brief, in collaboration with the Italian academic task force supporting the Italian public administration in the evaluation of post-crisis policies
+\end{enumerate}
+
+The paper will be submitted to rank 1 or rank 2 journals in economics according to
+the Based on the CNRS journals classification (Version 5.06 of
+November 2019). In particular the applicant plan to submit our work to one of the following scientific journals:
+\begin{itemize}
+	\item Journal of Finance (Rank 1g)
+	\item Review of Financial Studies (Rank 1)
+	\item Journal of Financial Economics (Rank 1)
+	\item Journal of Money, Credit and Banking (Rank 1)
+	\item Journal of Financial and Quantitative Analysis (Rank 1)
+	\item Quantitative Economics (Rank 1) 
+	\item Journal of Banking and Finance (Rank 2)
+\end{itemize}
+
+
+  
+
+\clearpage
+\bibliography{references}
+\bibliographystyle{apalike}
+
+\end{document}
